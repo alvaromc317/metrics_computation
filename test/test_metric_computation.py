@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     metrics_object = mc.MetricsComputation(metrics=['true_positive_rate', 'false_negative_rate', 'true_negative_rate',
                                                     'false_positive_rate', 'precision', 'f_score',
-                                                    'correct_selection_rate', 'beta_error', 'count_number_positives',
+                                                    'correct_selection_rate', 'beta_error', 'number_positives',
                                                     'store_beta'])
     metrics = metrics_object.fit(predicted_beta=alasso_betas, true_beta=beta)
 

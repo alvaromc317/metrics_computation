@@ -10,7 +10,7 @@ class MetricsComputation:
         self.tol = tol
         self.metrics = metrics
         self.valid_metrics = ['true_positive_rate', 'false_negative_rate', 'true_negative_rate', 'false_positive_rate',
-                              'precision', 'f_score', 'correct_selection_rate', 'count_number_positives', 'store_beta',
+                              'precision', 'f_score', 'correct_selection_rate', 'number_positives', 'store_beta',
                               'beta_error']
 
     def __str__(self):
@@ -31,8 +31,8 @@ class MetricsComputation:
         return metrics_corrected
 
     def _store_beta_one(self, beta):
-        index_non_zero_beta = np.ndarray.astype(np.where(np.abs(beta) > self.tol)[0], 'int')
-        val_non_zero_beta = beta[index_non_zero_beta]
+        index_non_zero_beta = np.ndarray.astype(np.where(np.abs(beta) > self.tol)[0], 'int').tolist()
+        val_non_zero_beta = beta[index_non_zero_beta].tolist()
         return index_non_zero_beta, val_non_zero_beta
 
     def _store_beta(self, predicted_beta, true_beta):
@@ -47,13 +47,13 @@ class MetricsComputation:
                 value_non_zero_true_beta=value_non_zero_true_beta))
         return result
 
-    def _count_number_positives_one(self, beta):
+    def _number_positives_one(self, beta):
         number_positives = len(np.where(np.abs(beta) > self.tol)[0])
         return number_positives
 
-    def _count_number_positives(self, predicted_beta, true_beta):
-        number_positives_predicted_beta = self._count_number_positives_one(predicted_beta)
-        number_positives_true_beta = self._count_number_positives_one(true_beta)
+    def _number_positives(self, predicted_beta, true_beta):
+        number_positives_predicted_beta = self._number_positives_one(predicted_beta)
+        number_positives_true_beta = self._number_positives_one(true_beta)
         result = dict(
             number_positives_predicted_beta=number_positives_predicted_beta,
             number_positives_true_beta=number_positives_true_beta)
