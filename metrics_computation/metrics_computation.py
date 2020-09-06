@@ -18,7 +18,7 @@ class MetricsComputation:
             f'zero\nNegatives = coefficients equal to zero\nValid metrics are:\n{self.valid_metrics} '
         return r
 
-    def __preprocessing_metrics(self):
+    def _preprocessing_metrics(self):
         if isinstance(self.metrics, str):
             self.metrics = [self.metrics]
         metrics_corrected = []
@@ -157,11 +157,11 @@ class MetricsComputation:
 
     # FITTING METHOD #################################################################################################
 
-    def __get_metrics_name(self, metric):
+    def _get_metrics_name(self, metric):
         return '_' + metric
 
     def fit(self, predicted_beta, true_beta):
-        self.__preprocessing_metrics()  # Convert metric into a list
-        tmp = [(elt, getattr(self, self.__get_metrics_name(elt))(predicted_beta, true_beta)) for elt in self.metrics]
+        self._preprocessing_metrics()  # Convert metric into a list
+        tmp = [(elt, getattr(self, self._get_metrics_name(elt))(predicted_beta, true_beta)) for elt in self.metrics]
         metrics_dictionary = dict(tmp)
         return metrics_dictionary
