@@ -68,8 +68,11 @@ class MetricsComputation:
         :return: True positive rate (also called sensitivity). True positives / real positives. TPR + FNR = 1
         """
         true_positive = np.sum(np.logical_and(np.abs(true_beta) > self.tol, np.abs(predicted_beta) > self.tol))
-        real_positive = np.max((np.sum(np.abs(true_beta) > self.tol), 1))  # We add the max because it is a denominator
-        true_positive_rate = true_positive / real_positive
+        real_positive = np.sum(np.abs(true_beta) > self.tol)
+        if real_positive == 0:
+            true_positive_rate = 0
+        else:
+            true_positive_rate = true_positive / real_positive
         return true_positive_rate
 
     def _false_negative_rate(self, predicted_beta, true_beta):
@@ -90,8 +93,11 @@ class MetricsComputation:
         :return: True negative rate (also called specificity). True negatives / real negatives. TNR + FPR = 1
         """
         true_negative = np.sum(np.logical_and(np.abs(true_beta) <= self.tol, np.abs(predicted_beta) <= self.tol))
-        real_negative = np.max((np.sum(np.abs(true_beta) <= self.tol), 1))  # We add the max because it is a denominator
-        true_negative_rate = true_negative / real_negative
+        real_negative = np.sum(np.abs(true_beta) <= self.tol)
+        if real_negative == 0:
+            true_negative_rate = 0
+        else:
+            true_negative_rate = true_negative / real_negative
         return true_negative_rate
 
     def _false_positive_rate(self, predicted_beta, true_beta):
@@ -113,7 +119,10 @@ class MetricsComputation:
         """
         true_positive = np.sum(np.logical_and(np.abs(true_beta) > self.tol, np.abs(predicted_beta) > self.tol))
         false_positive = np.sum(np.logical_and(np.abs(true_beta) <= self.tol, np.abs(predicted_beta) > self.tol))
-        precision = true_positive / (true_positive + false_positive)
+        if (true_positive + false_positive) == 0:
+            precision = 0
+        else:
+            precision = true_positive / (true_positive + false_positive)
         return precision
 
     # F SCORE #########################################################################################################
@@ -128,7 +137,10 @@ class MetricsComputation:
         """
         precision = self._precision(predicted_beta, true_beta)
         recall = self._true_positive_rate(predicted_beta, true_beta)
-        f_score = 2*(precision*recall)/(precision+recall)
+        if precision+recall == 0:
+            f_score = 0
+        else:
+            f_score = 2 * (precision * recall) / (precision + recall)
         return f_score
 
     # CORRECT SELECTION RATE ##########################################################################################

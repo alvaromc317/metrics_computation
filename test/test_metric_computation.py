@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     logging.info('solving adaptive model')
     lambda1 = 10.0 ** np.arange(-3, 1.51, 0.1)
-    tvt_alasso = asgl.TVT(model='lm', penalization='alasso', lambda1=lambda1, parallel=True,
+    tvt_alasso = asgl.TVT(model='lm', penalization='alasso', lambda1=lambda1, parallel=False,
                           weight_technique='pca_pct', variability_pct=0.9, error_type='MSE',
                           random_state=1, train_size=100, validate_size=100)
     alasso_result = tvt_alasso.train_validate_test(x=x, y=y)
@@ -36,3 +36,5 @@ if __name__ == '__main__':
     end_time = time.time()
     execution_time = np.round(end_time - start_time, 2)
     logging.info(f'Computations finished with no error.\nExecution time = {execution_time} seconds')
+
+###################################################
