@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='metrics_computation',
-    version='v0.0.1',
+    version='v0.0.2',
     author='Alvaro Mendez Civieta',
     author_email='almendez@est-econ.uc3m.es',
     license='GNU General Public License',
